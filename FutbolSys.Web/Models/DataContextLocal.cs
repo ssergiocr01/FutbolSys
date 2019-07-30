@@ -8,5 +8,9 @@ namespace FutbolSys.Web.Models
         public DbSet<League> Leagues { get; set; }
 
         public DbSet<Team> Teams { get; set; }
+
+        public System.Data.Entity.DbSet<FutbolSys.Domain.Tournament> Tournaments { get; set; }
+
+        public System.Data.Entity.DbSet<FutbolSys.Domain.TournamentGroup> TournamentGroups { get; set; }
     }
 }

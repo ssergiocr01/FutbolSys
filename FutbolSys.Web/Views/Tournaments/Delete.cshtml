@@ -1,24 +1,15 @@
-﻿@model FutbolSys.Domain.Team
+﻿@model FutbolSys.Domain.Tournament
 
 @{
-    ViewBag.Title = "Eliminar Equipo " + Model.Name;
+    ViewBag.Title = "Eliminar Torneo " + Model.Name;
 }
 
 <h2>@ViewBag.Title</h2>
 
 <h3>¿Estás seguro que quieres eliminar este registro?</h3>
-<div>
-
+<div>    
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.League.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.League.Name)
-        </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Name)
         </dt>
@@ -36,29 +27,32 @@
             {
                 <img src="@Url.Content(Model.Logo)" alt="Logo" style="width:100px;height:100px;max-width:100%; height:100%" />
             }
-            else
-            {
-                <p>No tiene logo</p>
-            }
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Initials)
+            @Html.DisplayNameFor(model => model.IsActive)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Initials)
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Order)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Order)
         </dd>
 
     </dl>
 
-    @using (Html.BeginForm())
-    {
+    @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Eliminar" class="btn btn-default" />
-            @Html.ActionLink("Cancelar", "Index", new { }, new { @class = "btn btn-danger" })
+            <input type="submit" value="Eliminar" class="btn btn-default" /> 
+            @Html.ActionLink("Cancelar", "Index", new { }, new { @class = "btn btn-danger"})
         </div>
     }
 </div>

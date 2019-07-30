@@ -1,20 +1,17 @@
-﻿@model IEnumerable<FutbolSys.Domain.Team>
+﻿@model IEnumerable<FutbolSys.Domain.Tournament>
 
 @{
-    ViewBag.Title = "Lista de Equipos";
+    ViewBag.Title = "Lista de Torneos";
 }
 
 <h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Crear Equipo", "Create", new { }, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Crear Torneo", "Create", new { }, new { @class = "btn btn-primary" })
 </p>
-<table class="table table-condensed table-hover table-striped" id="teamsTable">
+<table class="table table-condensed table-hover table-striped" id="tournamentTable">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.League.Name)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -22,18 +19,20 @@
                 @Html.DisplayNameFor(model => model.Logo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Initials)
+                @Html.DisplayNameFor(model => model.IsActive)
             </th>
-            <th>Opciones</th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order)
+            </th>
+            <th>
+                Opciones
+            </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.League.Name)
-                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
@@ -44,18 +43,20 @@
                     }
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Initials)
+                    @Html.DisplayFor(modelItem => item.IsActive)
                 </td>
                 <td>
-                    @Html.ActionLink("Editar", "Edit", new { id = item.TeamId }, new { @class = "btn btn-warning" })
-                    @Html.ActionLink("Detalles", "Details", new { id = item.TeamId }, new { @class = "btn btn-info" })
-                    @Html.ActionLink("Eliminar", "Delete", new { id = item.TeamId }, new { @class = "btn btn-danger" })
+                    @Html.DisplayFor(modelItem => item.Order)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.TournamentId }, new { @class = "btn btn-warning" })
+                    @Html.ActionLink("Detalles", "Details", new { id = item.TournamentId }, new { @class = "btn btn-info" })
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.TournamentId }, new { @class = "btn btn-danger" })
                 </td>
             </tr>
         }
     </tbody>
 </table>
-
 
 @section Scripts{
 
@@ -63,7 +64,7 @@
 
     <script>
         $(document).ready(function () {
-            $('#teamsTable').DataTable({
+            $('#tournamentTable').DataTable({
                 "language": {
                     "sProcessing": "Procesando...",
                     "sLengthMenu": "Mostrar _MENU_ registros",

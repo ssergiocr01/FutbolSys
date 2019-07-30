@@ -1,0 +1,94 @@
+﻿@model FutbolSys.Domain.Tournament
+
+@{
+    ViewBag.Title = "Detalles del Torneo " + Model.Name;
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Logo)
+        </dt>
+
+        <dd>
+            @if (!string.IsNullOrEmpty(Model.Logo))
+            {
+                <img src="@Url.Content(Model.Logo)" alt="Logo" style="width:100px;height:100px;max-width:100%; height:100%" />
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Order)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Order)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar Torneo", "Edit", new { id = Model.TournamentId }, new { @class = "btn btn-warning" })
+    @Html.ActionLink("Crear Grupo", "CreateGroup", new { id = Model.TournamentId }, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Cancelar", "Index", new { }, new { @class = "btn btn-danger" })
+</p>
+
+<hr />
+<h4>Grupos</h4>
+@if (Model.TournamentGroups.Count == 0)
+{
+    <h5>No tiene grupos registrados todavía</h5>
+}
+else
+{
+    <table class="table table-condensed table-hover table-striped" id="groupsTable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.TournamentGroups.FirstOrDefault().Tournament.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TournamentGroups.FirstOrDefault().Name)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.TournamentGroups.OrderBy(g => g.Name))
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tournament.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "EditGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-warning" })
+                    @Html.ActionLink("Detalles", "DetailsGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-info" })
+                    @Html.ActionLink("Eliminar", "DeleteGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}

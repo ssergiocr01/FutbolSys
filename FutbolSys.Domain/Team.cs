@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FutbolSys.Domain
 {
@@ -16,7 +11,7 @@ namespace FutbolSys.Domain
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [MaxLength(50, ErrorMessage = "La longitud máxima para el campo {0} es de {1} caracteres")]
         [Index("Team_Name_LeagueId_Index", IsUnique = true, Order = 1)]
-        [Display(Name = "Liga")]
+        [Display(Name = "Equipo")]
         public string Name { get; set; }
 
         [DataType(DataType.ImageUrl)]
