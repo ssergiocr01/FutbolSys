@@ -25,6 +25,9 @@
                 @Html.DisplayNameFor(model => model.Order)
             </th>
             <th>
+                # Grupos
+            </th>
+            <th>
                 Opciones
             </th>
         </tr>
@@ -47,6 +50,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Order)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TournamentGroups.Count)
                 </td>
                 <td>
                     @Html.ActionLink("Editar", "Edit", new { id = item.TournamentId }, new { @class = "btn btn-warning" })

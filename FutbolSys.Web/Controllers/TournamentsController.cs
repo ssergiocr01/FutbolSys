@@ -152,6 +152,88 @@ namespace FutbolSys.Web.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<ActionResult> CreateGroup(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var tournament = await db.Tournaments.FindAsync(id);
+
+            if (tournament == null)
+            {
+                return HttpNotFound();
+            }
+
+            var view = new TournamentGroup
+            {
+                TournamentId = tournament.TournamentId
+            };
+
+            return View(view);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateGroup(TournamentGroup tournamentGroup)
+        {
+            if (ModelState.IsValid)
+            {
+                db.TournamentGroups.Add(tournamentGroup);
+                await db.SaveChangesAsync();
+                return RedirectToAction(string.Format("Details/{0}", tournamentGroup.TournamentId));
+            }
+            
+            return View(tournamentGroup);
+        }
+
+        public async Task<ActionResult> EditGroup(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var tournamentGroup = await db.TournamentGroups.FindAsync(id);
+            if (tournamentGroup == null)
+            {
+                return HttpNotFound();
+            }
+            
+            return View(tournamentGroup);
+        }
+    
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditGroup(TournamentGroup tournamentGroup)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(tournamentGroup).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+                return RedirectToAction(string.Format("Details/{0}", tournamentGroup.TournamentId));
+            }
+            
+            return View(tournamentGroup);
+        }
+
+        public async Task<ActionResult> DeleteGroup(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var tournamentGroup = await db.TournamentGroups.FindAsync(id);
+            if (tournamentGroup == null)
+            {
+                return HttpNotFound();
+            }
+
+            db.TournamentGroups.Remove(tournamentGroup);
+            await db.SaveChangesAsync();
+            return RedirectToAction(string.Format("Details/{0}", tournamentGroup.TournamentId));
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

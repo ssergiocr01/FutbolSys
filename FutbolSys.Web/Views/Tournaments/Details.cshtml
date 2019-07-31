@@ -75,20 +75,56 @@ else
         <tbody>
             @foreach (var item in Model.TournamentGroups.OrderBy(g => g.Name))
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Tournament.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.ActionLink("Editar", "EditGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-warning" })
-                    @Html.ActionLink("Detalles", "DetailsGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-info" })
-                    @Html.ActionLink("Eliminar", "DeleteGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-danger" })
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tournament.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Editar", "EditGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-warning" })
+                        @Html.ActionLink("Detalles", "DetailsGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Eliminar", "DeleteGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-danger", onclick = "return confirm('Está seguro(a) de eliminar este registro')" })
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
+}
+
+@section Scripts{
+
+    <script src="~/Content/DataTable/datatables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#groupsTable').DataTable({
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    }
+                }
+            });
+        });
+    </script>
 }
