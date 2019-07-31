@@ -234,6 +234,43 @@ namespace FutbolSys.Web.Controllers
             return RedirectToAction(string.Format("Details/{0}", tournamentGroup.TournamentId));
         }
 
+        public async Task<ActionResult> CreateDate(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var tournament = await db.Tournaments.FindAsync(id);
+
+            if (tournament == null)
+            {
+                return HttpNotFound();
+            }
+
+            var view = new Date
+            {
+                TournamentId = tournament.TournamentId
+            };
+
+            
+            return View(view);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateDate(Date date)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Dates.Add(date);
+                await db.SaveChangesAsync();
+                return RedirectToAction(string.Format("Details/{0}", date.TournamentId ));
+            }
+                        
+            return View(date);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

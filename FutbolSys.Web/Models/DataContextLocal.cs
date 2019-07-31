@@ -12,5 +12,7 @@ namespace FutbolSys.Web.Models
         public System.Data.Entity.DbSet<FutbolSys.Domain.Tournament> Tournaments { get; set; }
 
         public System.Data.Entity.DbSet<FutbolSys.Domain.TournamentGroup> TournamentGroups { get; set; }
+
+        public System.Data.Entity.DbSet<FutbolSys.Domain.Date> Dates { get; set; }
     }
 }

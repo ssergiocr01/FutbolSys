@@ -49,49 +49,89 @@
 <p>
     @Html.ActionLink("Editar Torneo", "Edit", new { id = Model.TournamentId }, new { @class = "btn btn-warning" })
     @Html.ActionLink("Crear Grupo", "CreateGroup", new { id = Model.TournamentId }, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Crear Fecha", "CreateDate", new { id = Model.TournamentId }, new { @class = "btn btn-success" })
     @Html.ActionLink("Cancelar", "Index", new { }, new { @class = "btn btn-danger" })
 </p>
 
 <hr />
-<h4>Grupos</h4>
-@if (Model.TournamentGroups.Count == 0)
-{
-    <h5>No tiene grupos registrados todavía</h5>
-}
-else
-{
-    <table class="table table-condensed table-hover table-striped" id="groupsTable">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.TournamentGroups.FirstOrDefault().Tournament.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TournamentGroups.FirstOrDefault().Name)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.TournamentGroups.OrderBy(g => g.Name))
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Tournament.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Editar", "EditGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-warning" })
-                        @Html.ActionLink("Detalles", "DetailsGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-info" })
-                        @Html.ActionLink("Eliminar", "DeleteGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-danger", onclick = "return confirm('Está seguro(a) de eliminar este registro')" })
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+
+
+
+<div class="row">
+    <div class="col-md-6">
+        <h4>Grupos</h4>
+        @if (Model.TournamentGroups.Count == 0)
+        {
+            <h5>No tiene grupos registrados todavía</h5>
+        }
+        else
+        {
+            <table class="table table-condensed table-hover table-striped" id="groupsTable">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TournamentGroups.FirstOrDefault().Name)
+                        </th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.TournamentGroups.OrderBy(g => g.Name))
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Editar", "EditGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-warning" })
+                                @Html.ActionLink("Detalles", "DetailsGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-info" })
+                                @Html.ActionLink("Eliminar", "DeleteGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-danger", onclick = "return confirm('Está seguro(a) de eliminar este registro')" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+    <div class="col-md-6">
+        <h4>Fechas</h4>
+        @if (Model.Dates.Count == 0)
+        {
+            <h5>No tiene fechas registradas todavía</h5>
+        }
+        else
+        {
+            <table class="table table-condensed table-hover table-striped" id="datesTable">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Dates.FirstOrDefault().Name)
+                        </th>
+                        <th align="center">Opciones</th>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    @foreach (var item in Model.Dates.OrderBy(d => d.Name))
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Editar", "EditDate", new { id = item.DateId }, new { @class = "btn btn-warning" })
+                                @Html.ActionLink("Detalles", "DetailsDate", new { id = item.DateId }, new { @class = "btn btn-info" })
+                                @Html.ActionLink("Eliminar", "DeleteDate", new { id = item.DateId }, new { @class = "btn btn-danger", onclick = "return confirm('Está seguro(a) de eliminar este registro')" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                
+
+            </table>
+        }
+    </div>
+</div>
 
 @section Scripts{
 
@@ -100,6 +140,37 @@ else
     <script>
         $(document).ready(function () {
             $('#groupsTable').DataTable({
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    }
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#datesTable').DataTable({
                 "language": {
                     "sProcessing": "Procesando...",
                     "sLengthMenu": "Mostrar _MENU_ registros",

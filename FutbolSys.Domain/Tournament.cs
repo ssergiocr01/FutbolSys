@@ -25,5 +25,7 @@ namespace FutbolSys.Domain
         public int Order { get; set; }
 
         public virtual ICollection<TournamentGroup> TournamentGroups { get; set; }
+
+        public virtual ICollection<Date> Dates { get; set; }
     }
 }
