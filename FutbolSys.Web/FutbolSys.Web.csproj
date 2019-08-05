@@ -168,7 +168,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\DatesController.cs" />
+    <Compile Include="Controllers\GenericController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LeaguesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -184,6 +184,7 @@
     <Compile Include="Models\LeagueView.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\TeamView.cs" />
+    <Compile Include="Models\TournamentTeamView.cs" />
     <Compile Include="Models\TournamentView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -538,6 +539,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\soccer.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -586,18 +588,18 @@
     <Content Include="Views\Tournaments\EditGroup.cshtml" />
     <Content Include="Views\Leagues\CreateTeam.cshtml" />
     <Content Include="Views\Leagues\EditTeam.cshtml" />
-    <Content Include="Views\Dates\Create.cshtml" />
-    <Content Include="Views\Dates\Delete.cshtml" />
-    <Content Include="Views\Dates\Details.cshtml" />
-    <Content Include="Views\Dates\Edit.cshtml" />
-    <Content Include="Views\Dates\Index.cshtml" />
     <Content Include="Views\Tournaments\CreateDate.cshtml" />
+    <Content Include="Views\Tournaments\EditDate.cshtml" />
+    <Content Include="Views\Tournaments\DetailsGroup.cshtml" />
+    <Content Include="Views\Tournaments\CreateTeam.cshtml" />
+    <Content Include="Views\Tournaments\EditTeam.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Leagues\" />
     <Folder Include="Content\Teams\" />
     <Folder Include="Content\Tournaments\" />
+    <Folder Include="Views\Generic\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

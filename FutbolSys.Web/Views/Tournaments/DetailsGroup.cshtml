@@ -1,0 +1,133 @@
+﻿@model FutbolSys.Domain.TournamentGroup
+
+@{
+    ViewBag.Title = "Torneo " + Model.Tournament.Name;
+}
+
+<h2>@ViewBag.Title</h2>
+<h3>Grupo: @Model.Name</h3>
+
+<p>
+    @Html.ActionLink("Crear Equipo", "CreateTeam", new { id = Model.TournamentGroupId }, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Cancelar", "Details", new { id = Model.TournamentId }, new { @class = "btn btn-danger" })
+</p>
+
+@if (Model.TournamentTeams.Count == 0)
+{
+    <h4>No tiene equipos agregados</h4>
+}
+else
+{
+    <table class="table table-condensed table-hover table-striped" id="teamsTable">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TournamentTeams.FirstOrDefault().Team.Logo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TournamentTeams.FirstOrDefault().Team.Name)
+            </th>            
+            <th>
+                @Html.DisplayNameFor(model => model.TournamentTeams.FirstOrDefault().MatchesPlayed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TournamentTeams.FirstOrDefault().MatchesWon)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TournamentTeams.FirstOrDefault().MatchesLost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TournamentTeams.FirstOrDefault().MatchesTied)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TournamentTeams.FirstOrDefault().FavorGoals)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TournamentTeams.FirstOrDefault().AgainstGoals)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TournamentTeams.FirstOrDefault().Points)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TournamentTeams.FirstOrDefault().Position)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.TournamentTeams.OrderBy(t => t.Position))
+        {
+            <tr>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.Team.Logo))
+                    {
+                        <img src="@Url.Content(item.Team.Logo)" alt="Logo" style="width:65px;height:65px;max-width:100%; height:100%" />
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Team.Name)
+                </td>                
+                <td>
+                    @Html.DisplayFor(modelItem => item.MatchesPlayed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MatchesWon)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MatchesLost)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MatchesTied)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FavorGoals)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AgainstGoals)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Points)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Position)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "EditTeam", new { id = item.TournamentTeamId }, new { @class = "btn btn-warning" })
+                    @Html.ActionLink("Eliminar", "DeleteTeam", new { id = item.TournamentTeamId }, new { @class = "btn btn-danger", onclick = "return confirm('Está seguro(a) de eliminar este registro')" })
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#teamsTable').DataTable({
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    }
+                }
+            });
+        });
+    </script>
+}

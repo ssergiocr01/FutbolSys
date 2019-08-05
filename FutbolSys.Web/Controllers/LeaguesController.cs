@@ -9,6 +9,7 @@ using System;
 
 namespace FutbolSys.Web.Controllers
 {
+    [Authorize]
     public class LeaguesController : Controller
     {
         private DataContextLocal db = new DataContextLocal();

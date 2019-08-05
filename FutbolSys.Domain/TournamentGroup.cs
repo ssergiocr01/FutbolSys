@@ -25,5 +25,7 @@ namespace FutbolSys.Domain
 
         public virtual Tournament Tournament { get; set; }
 
+        public virtual ICollection<TournamentTeam> TournamentTeams { get; set; }
+
     }
 }
