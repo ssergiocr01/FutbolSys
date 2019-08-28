@@ -5,11 +5,10 @@ using System.Web.Mvc;
 using FutbolSys.Domain;
 using FutbolSys.Web.Models;
 using FutbolSys.Web.Helpers;
-using System;
 
 namespace FutbolSys.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class LeaguesController : Controller
     {
         private DataContextLocal db = new DataContextLocal();
@@ -56,8 +55,13 @@ namespace FutbolSys.Web.Controllers
                 var league = ToLeague(view);
                 league.Logo = pic;
                 db.Leagues.Add(league);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                var response = await DBHelper.SaveChanges(db);
+                if (response.Succeeded)
+                {
+                    return RedirectToAction("Index"); 
+                }
+
+                ModelState.AddModelError(string.Empty, response.Message);
             }
 
             return View(view);
@@ -80,7 +84,7 @@ namespace FutbolSys.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            League league = await db.Leagues.FindAsync(id);
+            var league = await db.Leagues.FindAsync(id);
             if (league == null)
             {
                 return HttpNotFound();
@@ -122,8 +126,12 @@ namespace FutbolSys.Web.Controllers
                 var league = ToLeague(view);
                 league.Logo = pic;
                 db.Entry(league).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                var response = await DBHelper.SaveChanges(db);
+                if (response.Succeeded)
+                {
+                    return RedirectToAction("Index"); 
+                }
+                ModelState.AddModelError(string.Empty, response.Message);
             }
             return View(view);
         }
@@ -135,24 +143,21 @@ namespace FutbolSys.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            League league = await db.Leagues.FindAsync(id);
+            var league = await db.Leagues.FindAsync(id);
             if (league == null)
             {
                 return HttpNotFound();
             }
-            return View(league);
-        }
-
-        // POST: Leagues/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
-        {
-            League league = await db.Leagues.FindAsync(id);
             db.Leagues.Remove(league);
-            await db.SaveChangesAsync();
+            var response = await DBHelper.SaveChanges(db);
+            if (response.Succeeded)
+            {
+                return RedirectToAction("Index"); 
+            }
+
+            ModelState.AddModelError(string.Empty, response.Message);
             return RedirectToAction("Index");
-        }
+        }       
 
         public async Task<ActionResult> CreateTeam(int? id)
         {
@@ -194,10 +199,15 @@ namespace FutbolSys.Web.Controllers
                 var team = ToTeam(view);
                 team.Logo = pic;
                 db.Teams.Add(team);
-                await db.SaveChangesAsync();
-                return RedirectToAction(string.Format("Details/{0}", view.LeagueId));
+                var response = await DBHelper.SaveChanges(db);
+                if (response.Succeeded)
+                {
+                    return RedirectToAction(string.Format("Details/{0}", view.LeagueId)); 
+                }
+
+                ModelState.AddModelError(string.Empty, response.Message);
             }
-            
+
             return View(view);
         }
 
@@ -233,12 +243,12 @@ namespace FutbolSys.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Team team = await db.Teams.FindAsync(id);
+            var team = await db.Teams.FindAsync(id);
             if (team == null)
             {
                 return HttpNotFound();
             }
-            var view = ToView(team);            
+            var view = ToView(team);
             return View(view);
         }
 
@@ -260,10 +270,15 @@ namespace FutbolSys.Web.Controllers
                 var team = ToTeam(view);
                 team.Logo = pic;
                 db.Entry(team).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction(string.Format("Details/{0}", view.LeagueId));
+                var response = await DBHelper.SaveChanges(db);
+                if (response.Succeeded)
+                {
+                    return RedirectToAction(string.Format("Details/{0}", view.LeagueId)); 
+                }
+
+                ModelState.AddModelError(string.Empty, response.Message);
             }
-            
+
             return View(view);
         }
 
@@ -280,8 +295,14 @@ namespace FutbolSys.Web.Controllers
             }
 
             db.Teams.Remove(team);
-            await db.SaveChangesAsync();
-            return RedirectToAction(string.Format("Details/{0}", team.LeagueId));
+            var response = await DBHelper.SaveChanges(db);
+            if (response.Succeeded)
+            {
+                return RedirectToAction(string.Format("Details/{0}", team.LeagueId)); 
+            }
+
+            ModelState.AddModelError(string.Empty, response.Message);
+            return View(team);
         }
 
         protected override void Dispose(bool disposing)

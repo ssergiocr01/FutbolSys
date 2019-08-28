@@ -113,6 +113,9 @@
                         <th>
                             @Html.DisplayNameFor(model => model.Dates.FirstOrDefault().Name)
                         </th>
+                        <th>
+                            # Partidos
+                        </th>
                         <th align="center">Opciones</th>
                     </tr>
                 </thead>
@@ -120,16 +123,19 @@
                 <tbody>
                     @foreach (var item in Model.Dates.OrderBy(d => d.Name))
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @Html.ActionLink("Editar", "EditDate", new { id = item.DateId }, new { @class = "btn btn-warning" })
-                                @Html.ActionLink("Detalles", "DetailsDate", new { id = item.DateId }, new { @class = "btn btn-info" })
-                                @Html.ActionLink("Eliminar", "DeleteDate", new { id = item.DateId }, new { @class = "btn btn-danger", onclick = "return confirm('Está seguro(a) de eliminar este registro')" })
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Matches.Count)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Editar", "EditDate", new { id = item.DateId }, new { @class = "btn btn-warning" })
+                            @Html.ActionLink("Detalles", "DetailsDate", new { id = item.DateId }, new { @class = "btn btn-info" })
+                            @Html.ActionLink("Eliminar", "DeleteDate", new { id = item.DateId }, new { @class = "btn btn-danger", onclick = "return confirm('Está seguro(a) de eliminar este registro')" })
+                        </td>
+                    </tr>
                     }
                 </tbody>
                 

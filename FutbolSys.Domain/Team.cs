@@ -29,5 +29,12 @@ namespace FutbolSys.Domain
         public virtual League League { get; set; }
 
         public virtual ICollection<TournamentTeam> TournamentTeams { get; set; }
+
+        public virtual ICollection<User> Fans { get; set; }
+
+        public virtual ICollection<Match> Locals { get; set; }
+
+        public virtual ICollection<Match> Visitors { get; set; }
+
     }
 }

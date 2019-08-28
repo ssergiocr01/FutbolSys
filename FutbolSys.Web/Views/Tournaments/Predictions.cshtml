@@ -1,0 +1,149 @@
+﻿@model FutbolSys.Domain.Match
+
+@{
+    ViewBag.Title = "Predicciones";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>Torneo: @Model.Date.Tournament.Name</h2>
+        <h3>Fecha: @Model.Date.Name</h3>
+    </div>
+    <div class="col-md-6">
+        <br />
+        <table>
+            <thead>
+                <tr>
+                    <td width="200px" align="center">
+                        @if (!string.IsNullOrEmpty(Model.Local.Logo))
+                        {
+                            <img src="@Url.Content(Model.Local.Logo)" alt="Image" style="width:120px;height:120px;max-width: 100%; height: auto;" />
+                        }
+                    </td>
+                    <td width="50px" align="center">
+                        <h2>Vs.</h2>
+                    </td>
+                    <td width="200px" align="center">
+                        @if (!string.IsNullOrEmpty(Model.Visitor.Logo))
+                        {
+                            <img src="@Url.Content(Model.Visitor.Logo)" alt="Image" style="width:120px;height:120px;max-width: 100%; height: auto;" />
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">
+                        <h3>@Model.Local.Name</h3>
+                    </td>
+                    <td width="50px" align="center"></td>
+                    <td align="center">
+                        <h3>@Model.Visitor.Name</h3>
+                    </td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<p>
+    @Html.ActionLink("Nueva Predicción", "CreatePrediction", new { id = Model.MatchId }, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Cancelar", "DetailsDate", new { id = Model.DateId }, new { @class = "btn btn-danger" })
+</p>
+
+@if (Model.Predictions.Count == 0)
+{
+    <h4>No tiene predicciones agregadas</h4>
+}
+else
+{
+    <table class="table table-condensed table-hover table-striped" id="predictionsTable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Predictions.FirstOrDefault().User.Picture)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Predictions.FirstOrDefault().User.FullName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Predictions.FirstOrDefault().LocalGoals)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Predictions.FirstOrDefault().VisitorGoals)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Predictions.FirstOrDefault().Points)
+                </th>
+                <th>
+                    Opciones
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Predictions.OrderByDescending(p => p.Points)
+                                               .ThenBy(p => p.User.FirstName)
+                                               .ThenBy(p => p.User.LastName))
+            {
+                <tr>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.User.Picture))
+                        {
+                            <img src="@item.User.PictureFullPath" alt="Image" style="width:80px;height:80px;max-width: 100%; height: auto;" />
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LocalGoals)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VisitorGoals)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Points)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Editar", "EditPrediction", new { id = item.PredictionId }, new { @class = "btn btn-warning" })
+                        @Html.ActionLink("Eliminar", "DeletePrediction", new { id = item.PredictionId }, new { @class = "btn btn-danger", onclick = "return confirm('¿Está seguro(a) de querer eliminar este registro?');" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@section Scripts{
+
+    <script src="~/Content/DataTable/datatables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#predictionsTable').DataTable({
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    }
+                }
+            });
+        });
+    </script>
+}

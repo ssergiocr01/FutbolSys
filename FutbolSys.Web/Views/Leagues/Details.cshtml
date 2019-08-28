@@ -77,7 +77,7 @@ else
                     </td>
                     <td>
                         @Html.ActionLink("Editar", "EditTeam", new { id = item.TeamId }, new { @class = "btn btn-warning" })
-                        @Html.ActionLink("Detalles", "DetailsTeam", new { id = item.TeamId }, new { @class = "btn btn-info" })
+                        @*@Html.ActionLink("Detalles", "DetailsTeam", new { id = item.TeamId }, new { @class = "btn btn-info" })*@
                         @Html.ActionLink("Eliminar", "DeleteTeam", new { id = item.TeamId }, new { @class = "btn btn-danger", onclick = "return confirm('Está seguro(a) de eliminar este registro')" })
                     </td>
                 </tr>
